@@ -5,8 +5,10 @@ app.secret_key = "supersecret"
 
 # --- Create Database ---
 def init_db():
-    if not os.path.exists("database.db"):
-        conn = sqlite3.connect("database.db")
+    db_path = app.config.get("DATABASE", "database.db")
+
+    if not os.path.exists(db_path):
+        conn = sqlite3.connect(app.config.get("DATABASE", "database.db"))
         c = conn.cursor()
         c.execute("""
             CREATE TABLE submissions (
@@ -21,13 +23,14 @@ init_db()
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    db_path = app.config.get("DATABASE", "database.db")
     if request.method == "POST":
         name = request.form["name"]
         message = request.form["message"]
         # Save name in session (temporary storage)
         session["username"] = name
         # Save data in database
-        conn = sqlite3.connect("database.db")
+        conn = sqlite3.connect(db_path)
         c = conn.cursor()
         c.execute("INSERT INTO submissions (name, message) VALUES (?, ?)", (name, message))
         conn.commit()
@@ -43,7 +46,7 @@ def thank_you():
 
 @app.route("/chin")
 def chin():
-    return f"Submit Your "
+    return f"Submit Your Message"
 
 if __name__ == "__main__":
     app.run(debug=True)

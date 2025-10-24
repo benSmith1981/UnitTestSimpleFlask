@@ -24,15 +24,15 @@ class FlaskAppTestCase(unittest.TestCase):
         self.assertIn(b"Submit Your Message", response.data)
 
 
-    # def test_user_saved_in_database(self):
-    #     self.client.post("/", data={"name": "Bob", "message": "Hello!"}, follow_redirects=True)
-    #     conn = sqlite3.connect("test.db")
-    #     c = conn.cursor()
-    #     c.execute("SELECT name FROM submissions WHERE name = 'Bob'")
-    #     result = c.fetchone()
-    #     print(result)
-    #     conn.close()
-    #     self.assertIsNotNone(result)
+    def test_user_saved_in_database(self):
+        self.client.post("/", data={"name": "Bob", "message": "Hello!"}, follow_redirects=True)
+        conn = sqlite3.connect("test.db")
+        c = conn.cursor()
+        c.execute("SELECT name FROM submissions WHERE name = 'Bob'")
+        result = c.fetchone()
+        print(result)
+        conn.close()
+        self.assertIsNotNone(result)
 
     def tearDown(self):
         if os.path.exists("test.db"):
