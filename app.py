@@ -6,6 +6,7 @@ app.secret_key = "supersecret"
 
 # --- Create Database ---
 def init_db():
+    # Make sure we get the DB name by checking the config for a DATABASE or assigning it a default one
     db_path = app.config.get("DATABASE", "database.db") 
     if not os.path.exists(db_path):
         conn = sqlite3.connect(db_path)
@@ -23,6 +24,8 @@ init_db()
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    # Make sure we get the DB name by checking the config for a DATABASE or assigning it a default one
+
     db_path = app.config.get("DATABASE", "database.db")
     if request.method == "POST":
         name = request.form["name"]

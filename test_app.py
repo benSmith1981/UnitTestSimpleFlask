@@ -15,6 +15,7 @@ class FlaskAppTestCase(unittest.TestCase):
         conn.execute("CREATE TABLE submissions (id INTEGER PRIMARY KEY, name TEXT, message TEXT)")
         conn.commit()
         conn.close()
+        #tell the app config to setup a value for the key DATABASE to point to test DB
         app.config["DATABASE"] = "test.db"
 
     def test_home_page_loads(self):
